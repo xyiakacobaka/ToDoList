@@ -5,8 +5,10 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
 import SVGAccept from "../Assetes/SVGAccept";
 import SVGDelete from "../Assetes/SVGDelete";
+import uuid from "react-native-uuid";
 
 type ItemData = {
   id: string;
@@ -58,11 +60,19 @@ const Item = ({ item }: ItemProps) => (
   </View>
 );
 
-export default function ToDoTasks() {
+type GetProps = {
+  task: string;
+};
+
+export default function ToDoTasks(props: GetProps) {
   const renderItem = ({ item }: { item: ItemData }) => {
     return <Item item={item}></Item>;
   };
-
+  //console.log(uuid.v4());
+  DATA.push({
+    id: uuid.v4(),
+    title: props.task,
+  });
   return (
     <View style={{ height: "30%", gap: 15 }}>
       <Text style={styles.text}>Tasks to do - {DATA.length}</Text>

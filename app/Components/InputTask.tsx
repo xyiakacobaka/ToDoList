@@ -1,15 +1,30 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import SVGPlus from "../Assetes/SVGPlus";
+import { useState } from "react";
 
-export default function InputTask() {
+type GetProps = {
+  TaskChange: any;
+};
+
+export default function InputTask(props: GetProps) {
+  const handleChange = (task: string) => {
+    props.TaskChange(task); // callback-функция
+    setTask("");
+  };
+  const [task, setTask] = useState("");
   return (
     <View style={styles.container}>
       <TextInput
         style={styles.input}
         placeholder="Add a new task"
         placeholderTextColor={"#777777"}
+        value={task}
+        onChange={(e) => setTask(e.nativeEvent["text"])}
       />
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => handleChange(task)}
+      >
         <SVGPlus />
       </TouchableOpacity>
     </View>

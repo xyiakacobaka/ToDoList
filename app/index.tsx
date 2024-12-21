@@ -3,16 +3,23 @@ import InputTask from "./Components/InputTask";
 import ToDoTasks from "./Components/ToDoTasks";
 import DoneTasks from "./Components/DoneTasks";
 import { Dimensions } from "react-native";
+import { useState } from "react";
 
 const Width = Dimensions.get("window").width;
 const Height = Dimensions.get("window").height;
 
 export default function Index() {
+  const [task, setTask] = useState("");
+
+  const handleChange = (task: string) => {
+    setTask(task);
+  };
+
   return (
     <View style={styles.main}>
       <View style={styles.container}>
-        <InputTask />
-        <ToDoTasks />
+        <InputTask TaskChange={handleChange} />
+        <ToDoTasks task={task} />
         <DoneTasks />
       </View>
     </View>
