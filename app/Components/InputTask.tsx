@@ -1,17 +1,31 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import SVGPlus from "../Assetes/SVGPlus";
 import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
 
 type GetProps = {
   TaskChange: any;
 };
 
 export default function InputTask(props: GetProps) {
+  const [task, setTask] = useState("");
+
   const handleChange = (task: string) => {
-    props.TaskChange(task); // callback-функция
+    storeData(task);
     setTask("");
   };
-  const [task, setTask] = useState("");
+
+  const storeData = async (value: string) => {
+    try {
+      const Task = { id: uuid.v4(), title: value };
+      if (Task) {
+        props.TaskChange({ id: uuid.v4(), title: value });
+        await AsyncStorage.setItem(uuid.v4(), value);
+      }
+    } catch (e) {}
+  };
+
   return (
     <View style={styles.container}>
       <TextInput

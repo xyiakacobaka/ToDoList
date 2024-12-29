@@ -1,80 +1,39 @@
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-
-import SVGAccept from "../Assetes/SVGAccept";
-import SVGDelete from "../Assetes/SVGDelete";
-import uuid from "react-native-uuid";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Item from "./Item";
 
 type ItemData = {
   id: string;
-  title: string;
+  title: string | null;
 };
-
-const DATA: ItemData[] = [
-  {
-    id: "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    title: "First Itemaflkjhsgkjfhagkjfhgashjgfakjhsgfkjhagfkjhgasfhkjgashkjfg",
-  },
-  {
-    id: "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-    title: "Second Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d72",
-    title: "Third Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d723",
-    title: "Third Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d725",
-    title: "Third Item",
-  },
-  {
-    id: "58694a0f-3da1-471f-bd96-145571e29d729",
-    title: "Third Item",
-  },
-];
-
-type ItemProps = {
-  item: ItemData;
-};
-
-const Item = ({ item }: ItemProps) => (
-  <View style={styles.container}>
-    <Text style={styles.textContainer}>{item.title}</Text>
-    <View style={styles.buttons}>
-      <TouchableOpacity>
-        <SVGAccept />
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <SVGDelete />
-      </TouchableOpacity>
-    </View>
-  </View>
-);
 
 type GetProps = {
-  task: string;
+  task: ItemData | undefined;
 };
 
 export default function ToDoTasks(props: GetProps) {
+  const [DATA, setDATA] = useState<ItemData[]>([]);
+  useEffect(() => {
+    const getDATA = async () => {
+      const keys = await AsyncStorage.getAllKeys();
+      const data = await AsyncStorage.multiGet(keys);
+      const mas: ItemData[] = [];
+      data.map((task) => {
+        mas.push({ id: task[0], title: task[1] });
+      });
+      setDATA(mas);
+    };
+    getDATA();
+  }, []);
+  if (props.task != undefined) {
+    DATA.push(props.task);
+  }
   const renderItem = ({ item }: { item: ItemData }) => {
-    return <Item item={item}></Item>;
+    return <Item id={item.id} title={item.title}></Item>;
   };
-  //console.log(uuid.v4());
-  DATA.push({
-    id: uuid.v4(),
-    title: props.task,
-  });
   return (
-    <View style={{ height: "30%", gap: 15 }}>
+    <View style={styles.container}>
       <Text style={styles.text}>Tasks to do - {DATA.length}</Text>
       <FlatList
         data={DATA}
@@ -88,33 +47,16 @@ export default function ToDoTasks(props: GetProps) {
 
 const styles = StyleSheet.create({
   flatList: {
-    width: "90%",
-  },
-  container: {
     width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    height: 80,
-    backgroundColor: "#15101C",
-    borderRadius: 10,
-    marginBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
-    borderWidth: 1,
-    borderColor: "#9E78CF",
-  },
-  textContainer: {
-    color: "#9E78CF",
-    width: "70%",
-  },
-  buttons: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "row",
-    gap: 15,
   },
   text: {
     color: "#fff",
+  },
+  container: {
+    width: "90%",
+    height: "30%",
+    gap: 15,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

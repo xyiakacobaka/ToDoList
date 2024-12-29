@@ -1,17 +1,18 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import InputTask from "./Components/InputTask";
 import ToDoTasks from "./Components/ToDoTasks";
 import DoneTasks from "./Components/DoneTasks";
-import { Dimensions } from "react-native";
 import { useState } from "react";
 
-const Width = Dimensions.get("window").width;
-const Height = Dimensions.get("window").height;
+type ItemData = {
+  id: string;
+  title: string | null;
+};
 
 export default function Index() {
-  const [task, setTask] = useState("");
+  const [task, setTask] = useState<ItemData>();
 
-  const handleChange = (task: string) => {
+  const handleChange = (task: ItemData) => {
     setTask(task);
   };
 
@@ -30,14 +31,13 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: "#0D0714",
-    justifyContent: "flex-start",
     alignItems: "center",
-    paddingTop: "35%",
+    justifyContent: "center",
   },
   container: {
     backgroundColor: "#1D1825",
-    width: Width * (4 / 5),
-    height: Height * (70 / 100),
+    width: "80%",
+    height: "70%",
     borderRadius: 20,
     justifyContent: "space-evenly",
     alignItems: "center",
