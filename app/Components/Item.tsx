@@ -1,32 +1,28 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import SVGAccept from "../Assetes/SVGAccept";
-import SVGDelete from "../Assetes/SVGDelete";
 import { useDispatch } from "react-redux";
-import { deleteTask } from "../.Store/taskSlice";
-import { AppDispatch } from "../.Store/store";
+import { deleteTask } from "../../.Store/Actions/TaskActions";
+import { AppDispatch } from "../../.Store/store";
+import { TaskItem } from "../../.Types/taskTypes";
+import SVGDelete from "../Assetes/SVGDelete";
 
-type ItemData = {
-  id: string;
-  title: string | null;
-};
-
-export default function Item(item: ItemData) {
+export default function Item(item: TaskItem) {
   const dispatch = useDispatch<AppDispatch>();
 
-  // Обработчик удаления задачи
   const handleDelete = () => {
     dispatch(deleteTask(item.id));
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.textContainer}>{item.title}</Text>
-      <View style={styles.buttons}>
+    <View
+      style={[styles.container, { borderColor: item.containerBorderColor }]}
+    >
+      <Text style={[styles.textContainer, item.textStyle]}>{item.title}</Text>
+      <View style={[styles.buttons]}>
         <TouchableOpacity>
-          <SVGAccept />
+          <item.firstIcon color={item.buttonsFill} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleDelete}>
-          <SVGDelete />
+          <SVGDelete color={item.buttonsFill} />
         </TouchableOpacity>
       </View>
     </View>
@@ -43,10 +39,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#15101C",
     borderRadius: 10,
     marginBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingHorizontal: 20,
     borderWidth: 1,
-    borderColor: "#9E78CF",
   },
   textContainer: {
     color: "#9E78CF",

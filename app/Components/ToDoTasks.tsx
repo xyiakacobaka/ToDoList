@@ -1,31 +1,37 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadTasks } from "../.Store/taskSlice";
+import { loadTasks } from "../../.Store/Actions/TaskActions";
+import { AppDispatch } from "../../.Store/store";
+import { Task } from "../../.Types/taskTypes";
+import { selectAllTasks } from "../../.Store/Selectors/TaskSelectors";
 import Item from "./Item";
-import { AppDispatch, RootState } from "../.Store/store";
-
-type Task = {
-  id: string;
-  title: string;
-};
+import SVGAccept from "../Assetes/SVGAccept";
 
 export default function ToDoTasks() {
   const dispatch = useDispatch<AppDispatch>();
-  const tasks = useSelector((state: RootState) => state.taskVault.tasks);
-  const status = useSelector((state: RootState) => state.taskVault.status);
+  const tasks = useSelector(selectAllTasks);
 
   useEffect(() => {
     dispatch(loadTasks());
   }, [dispatch]);
 
   const renderItem = ({ item }: { item: Task }) => {
-    return <Item id={item.id} title={item.title} />;
+    return (
+      <Item
+        id={item.id}
+        title={item.title}
+        textStyle={{}}
+        firstIcon={SVGAccept}
+        containerBorderColor={"#9E78CF"}
+        buttonsFill={"#9E78CF"}
+      />
+    );
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Tasks to do - {tasks.length}</Text>
+      <Text style={styles.text}>Новые задачи - {tasks.length}</Text>
       <FlatList
         data={tasks}
         keyExtractor={(item) => item.id}
@@ -50,5 +56,6 @@ const styles = StyleSheet.create({
     gap: 15,
     justifyContent: "center",
     alignItems: "center",
+    paddingBottom: 25,
   },
 });

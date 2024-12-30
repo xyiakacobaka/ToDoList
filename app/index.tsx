@@ -1,11 +1,20 @@
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StatusBar, StyleSheet, View } from "react-native";
 import InputTask from "./Components/InputTask";
 import ToDoTasks from "./Components/ToDoTasks";
 import DoneTasks from "./Components/DoneTasks";
+import { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Index() {
+  useEffect(() => {
+    const f = async () => {
+      console.log(await AsyncStorage.multiGet(await AsyncStorage.getAllKeys()));
+    };
+    f();
+  }, []);
   return (
-    <View style={styles.main}>
+    <View style={[styles.main]}>
+      <StatusBar backgroundColor="#000" />
       <View style={styles.container}>
         <InputTask />
         <ToDoTasks />
@@ -25,9 +34,10 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#1D1825",
     width: "80%",
-    height: "70%",
+    height: 550,
     borderRadius: 20,
     justifyContent: "space-evenly",
     alignItems: "center",
+    marginVertical: "auto",
   },
 });

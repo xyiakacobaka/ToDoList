@@ -1,35 +1,39 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadTasks } from "../../.Store/Actions/TaskActions";
+import { AppDispatch } from "../../.Store/store";
+import { Task } from "../../.Types/taskTypes";
+import { selectAllTasks } from "../../.Store/Selectors/TaskSelectors";
 import Item from "./Item";
-
-type ItemData = {
-  id: string;
-  title: string | null;
-};
+import SVGReturn from "../Assetes/SVGReturn";
 
 export default function ToDoTasks() {
-  const [DATA, setDATA] = useState<ItemData[]>([]);
+  const dispatch = useDispatch<AppDispatch>();
+  const tasks = useSelector(selectAllTasks);
+
   useEffect(() => {
-    const getDATA = async () => {
-      const keys = await AsyncStorage.getAllKeys();
-      const data = await AsyncStorage.multiGet(keys);
-      const mas: ItemData[] = [];
-      data.map((task) => {
-        mas.push({ id: task[0], title: task[1] });
-      });
-      setDATA(mas);
-    };
-    getDATA();
-  }, []);
-  const renderItem = ({ item }: { item: ItemData }) => {
-    return <Item id={item.id} title={item.title}></Item>;
+    dispatch(loadTasks());
+  }, [dispatch]);
+
+  const renderItem = ({ item }: { item: Task }) => {
+    return (
+      <Item
+        id={item.id}
+        title={item.title}
+        textStyle={{ textDecorationLine: "line-through", color: "green" }}
+        firstIcon={SVGReturn}
+        containerBorderColor={"green"}
+        buttonsFill={"green"}
+      />
+    );
   };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Tasks to do - {DATA.length}</Text>
+      <Text style={styles.text}>Выполненные задачи - {tasks.length}</Text>
       <FlatList
-        data={DATA}
+        data={tasks}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         style={styles.flatList}
@@ -41,16 +45,17 @@ export default function ToDoTasks() {
 const styles = StyleSheet.create({
   flatList: {
     width: "100%",
-    height: "20%",
+    height: 80,
   },
   text: {
     color: "#fff",
   },
   container: {
     width: "80%",
-    flexGrow: 1,
+    flexGrow: 2,
     gap: 15,
     justifyContent: "center",
     alignItems: "center",
+    paddingBottom: 25,
   },
 });

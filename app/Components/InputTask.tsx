@@ -1,9 +1,9 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { addTask } from "../.Store/taskSlice";
+import { addTask } from "../../.Store/Actions/TaskActions";
 import SVGPlus from "../Assetes/SVGPlus";
-import { AppDispatch } from "../.Store/store";
+import { AppDispatch } from "../../.Store/store";
 
 export default function InputTask() {
   const [taskTitle, setTaskTitle] = useState("");
