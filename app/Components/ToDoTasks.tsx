@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadTasks } from "../../.Store/Actions/TaskActions";
 import { AppDispatch } from "../../.Store/store";
 import { Task } from "../../.Types/taskTypes";
-import { selectAllTasks } from "../../.Store/Selectors/TaskSelectors";
+import { selectIncompleteTasks } from "../../.Store/Selectors/TaskSelectors";
 import Item from "./Item";
 import SVGAccept from "../Assetes/SVGAccept";
 
 export default function ToDoTasks() {
   const dispatch = useDispatch<AppDispatch>();
-  const tasks = useSelector(selectAllTasks);
+  const tasks = useSelector(selectIncompleteTasks);
 
   useEffect(() => {
     dispatch(loadTasks());

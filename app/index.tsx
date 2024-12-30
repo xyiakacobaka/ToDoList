@@ -6,12 +6,6 @@ import { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Index() {
-  useEffect(() => {
-    const f = async () => {
-      console.log(await AsyncStorage.multiGet(await AsyncStorage.getAllKeys()));
-    };
-    f();
-  }, []);
   return (
     <View style={[styles.main]}>
       <StatusBar backgroundColor="#000" />

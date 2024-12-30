@@ -1,22 +1,21 @@
-import { RootState } from "../store"; // Импортируем тип RootState
+import { createSelector } from "reselect";
+import { RootState } from "../store";
 
-// Селектор для получения всех задач
 export const selectAllTasks = (state: RootState) => state.taskVault.tasks;
 
-// Селектор для получения статуса загрузки
 export const selectTasksStatus = (state: RootState) => state.taskVault.status;
 
-// Селектор для получения ошибки
 export const selectTasksError = (state: RootState) => state.taskVault.error;
 
-// Селектор для получения задачи по ID
-export const selectTaskById = (state: RootState, taskId: string) =>
-  state.taskVault.tasks.find((task) => task.id === taskId);
+export const selectTaskById = createSelector(
+  [selectAllTasks, (state: RootState, taskId: string) => taskId],
+  (tasks, taskId) => tasks.find((task) => task.id === taskId)
+);
 
-// Селектор для получения выполненных задач
-export const selectCompletedTasks = (state: RootState) =>
-  state.taskVault.tasks.filter((task) => task.done);
+export const selectCompletedTasks = createSelector([selectAllTasks], (tasks) =>
+  tasks.filter((task) => task.done)
+);
 
-// Селектор для получения невыполненных задач
-export const selectIncompleteTasks = (state: RootState) =>
-  state.taskVault.tasks.filter((task) => !task.done);
+export const selectIncompleteTasks = createSelector([selectAllTasks], (tasks) =>
+  tasks.filter((task) => !task.done)
+);

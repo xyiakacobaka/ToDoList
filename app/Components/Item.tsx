@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useDispatch } from "react-redux";
-import { deleteTask } from "../../.Store/Actions/TaskActions";
+import { deleteTask, toggleTaskDone } from "../../.Store/Actions/TaskActions";
 import { AppDispatch } from "../../.Store/store";
 import { TaskItem } from "../../.Types/taskTypes";
 import SVGDelete from "../Assetes/SVGDelete";
@@ -12,13 +12,17 @@ export default function Item(item: TaskItem) {
     dispatch(deleteTask(item.id));
   };
 
+  const handleToggleTaskDone = () => {
+    dispatch(toggleTaskDone(item.id));
+  };
+
   return (
     <View
       style={[styles.container, { borderColor: item.containerBorderColor }]}
     >
       <Text style={[styles.textContainer, item.textStyle]}>{item.title}</Text>
       <View style={[styles.buttons]}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleToggleTaskDone}>
           <item.firstIcon color={item.buttonsFill} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleDelete}>

@@ -20,7 +20,7 @@ export default function InputTask() {
     <View style={styles.container}>
       <TextInput
         style={styles.input}
-        placeholder="Add a new task"
+        placeholder="Добавить новую задачу"
         placeholderTextColor={"#777777"}
         value={taskTitle}
         onChangeText={setTaskTitle}

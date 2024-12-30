@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadTasks } from "../../.Store/Actions/TaskActions";
 import { AppDispatch } from "../../.Store/store";
 import { Task } from "../../.Types/taskTypes";
-import { selectAllTasks } from "../../.Store/Selectors/TaskSelectors";
+import { selectCompletedTasks } from "../../.Store/Selectors/TaskSelectors";
 import Item from "./Item";
 import SVGReturn from "../Assetes/SVGReturn";
 
 export default function ToDoTasks() {
   const dispatch = useDispatch<AppDispatch>();
-  const tasks = useSelector(selectAllTasks);
+  const tasks = useSelector(selectCompletedTasks);
 
   useEffect(() => {
     dispatch(loadTasks());

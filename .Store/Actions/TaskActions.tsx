@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid";
 
-// Загрузка задач
 export const loadTasks = createAsyncThunk("tasks/loadTasks", async () => {
   const keys = await AsyncStorage.getAllKeys();
   const tasks = await AsyncStorage.multiGet(keys);
@@ -12,7 +11,6 @@ export const loadTasks = createAsyncThunk("tasks/loadTasks", async () => {
   });
 });
 
-// Добавление задачи
 export const addTask = createAsyncThunk(
   "tasks/addTask",
   async (title: string) => {
@@ -23,7 +21,6 @@ export const addTask = createAsyncThunk(
   }
 );
 
-// Удаление задачи
 export const deleteTask = createAsyncThunk(
   "tasks/deleteTask",
   async (id: string) => {
@@ -32,15 +29,14 @@ export const deleteTask = createAsyncThunk(
   }
 );
 
-// Обновление статуса задачи (done)
 export const toggleTaskDone = createAsyncThunk(
   "tasks/toggleTaskDone",
   async (id: string) => {
     const value = await AsyncStorage.getItem(id);
     if (value) {
-      const task = JSON.parse(value); // Парсим JSON
-      task.done = !task.done; // Меняем статус
-      await AsyncStorage.setItem(id, JSON.stringify(task)); // Сохраняем обновленный объект
+      const task = JSON.parse(value);
+      task.done = !task.done;
+      await AsyncStorage.setItem(id, JSON.stringify(task));
       return { id, done: task.done };
     }
     throw new Error("Task not found");
