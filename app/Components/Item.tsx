@@ -1,6 +1,9 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import SVGAccept from "../Assetes/SVGAccept";
 import SVGDelete from "../Assetes/SVGDelete";
+import { useDispatch } from "react-redux";
+import { deleteTask } from "../.Store/taskSlice";
+import { AppDispatch } from "../.Store/store";
 
 type ItemData = {
   id: string;
@@ -8,6 +11,13 @@ type ItemData = {
 };
 
 export default function Item(item: ItemData) {
+  const dispatch = useDispatch<AppDispatch>();
+
+  // Обработчик удаления задачи
+  const handleDelete = () => {
+    dispatch(deleteTask(item.id));
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.textContainer}>{item.title}</Text>
@@ -15,7 +25,7 @@ export default function Item(item: ItemData) {
         <TouchableOpacity>
           <SVGAccept />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleDelete}>
           <SVGDelete />
         </TouchableOpacity>
       </View>

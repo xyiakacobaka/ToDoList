@@ -2,25 +2,13 @@ import { StyleSheet, View } from "react-native";
 import InputTask from "./Components/InputTask";
 import ToDoTasks from "./Components/ToDoTasks";
 import DoneTasks from "./Components/DoneTasks";
-import { useState } from "react";
-
-type ItemData = {
-  id: string;
-  title: string | null;
-};
 
 export default function Index() {
-  const [task, setTask] = useState<ItemData>();
-
-  const handleChange = (task: ItemData) => {
-    setTask(task);
-  };
-
   return (
     <View style={styles.main}>
       <View style={styles.container}>
-        <InputTask TaskChange={handleChange} />
-        <ToDoTasks task={task} />
+        <InputTask />
+        <ToDoTasks />
         <DoneTasks />
       </View>
     </View>

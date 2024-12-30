@@ -1,29 +1,19 @@
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
-import SVGPlus from "../Assetes/SVGPlus";
 import { useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import uuid from "react-native-uuid";
+import { useDispatch } from "react-redux";
+import { addTask } from "../.Store/taskSlice";
+import SVGPlus from "../Assetes/SVGPlus";
+import { AppDispatch } from "../.Store/store";
 
-type GetProps = {
-  TaskChange: any;
-};
+export default function InputTask() {
+  const [taskTitle, setTaskTitle] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
 
-export default function InputTask(props: GetProps) {
-  const [task, setTask] = useState("");
-
-  const handleChange = (task: string) => {
-    storeData(task);
-    setTask("");
-  };
-
-  const storeData = async (value: string) => {
-    try {
-      const Task = { id: uuid.v4(), title: value };
-      if (Task) {
-        props.TaskChange({ id: uuid.v4(), title: value });
-        await AsyncStorage.setItem(uuid.v4(), value);
-      }
-    } catch (e) {}
+  const handleAddTask = () => {
+    if (taskTitle.trim()) {
+      dispatch(addTask(taskTitle.trim()));
+      setTaskTitle("");
+    }
   };
 
   return (
@@ -32,13 +22,10 @@ export default function InputTask(props: GetProps) {
         style={styles.input}
         placeholder="Add a new task"
         placeholderTextColor={"#777777"}
-        value={task}
-        onChange={(e) => setTask(e.nativeEvent["text"])}
+        value={taskTitle}
+        onChangeText={setTaskTitle}
       />
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => handleChange(task)}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleAddTask}>
         <SVGPlus />
       </TouchableOpacity>
     </View>
@@ -48,7 +35,7 @@ export default function InputTask(props: GetProps) {
 const styles = StyleSheet.create({
   container: {
     width: "80%",
-    height: 40,
+    flexGrow: 1,
     flexDirection: "row",
     gap: "5%",
     justifyContent: "center",
@@ -56,15 +43,15 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "15%",
-    height: "100%",
+    height: "40%",
     backgroundColor: "#9E78CF",
     justifyContent: "center",
     borderRadius: 12,
     alignItems: "center",
   },
   input: {
-    width: "90%",
-    height: "100%",
+    width: "80%",
+    height: "40%",
     borderWidth: 1,
     borderColor: "#9E78CF",
     borderRadius: 10,

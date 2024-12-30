@@ -1,42 +1,33 @@
 import { FlatList, StyleSheet, Text, View } from "react-native";
-import { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { loadTasks } from "../.Store/taskSlice";
 import Item from "./Item";
+import { AppDispatch, RootState } from "../.Store/store";
 
-type ItemData = {
+type Task = {
   id: string;
-  title: string | null;
+  title: string;
 };
 
-type GetProps = {
-  task: ItemData | undefined;
-};
+export default function ToDoTasks() {
+  const dispatch = useDispatch<AppDispatch>();
+  const tasks = useSelector((state: RootState) => state.taskVault.tasks);
+  const status = useSelector((state: RootState) => state.taskVault.status);
 
-export default function ToDoTasks(props: GetProps) {
-  const [DATA, setDATA] = useState<ItemData[]>([]);
   useEffect(() => {
-    const getDATA = async () => {
-      const keys = await AsyncStorage.getAllKeys();
-      const data = await AsyncStorage.multiGet(keys);
-      const mas: ItemData[] = [];
-      data.map((task) => {
-        mas.push({ id: task[0], title: task[1] });
-      });
-      setDATA(mas);
-    };
-    getDATA();
-  }, []);
-  if (props.task != undefined) {
-    DATA.push(props.task);
-  }
-  const renderItem = ({ item }: { item: ItemData }) => {
-    return <Item id={item.id} title={item.title}></Item>;
+    dispatch(loadTasks());
+  }, [dispatch]);
+
+  const renderItem = ({ item }: { item: Task }) => {
+    return <Item id={item.id} title={item.title} />;
   };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Tasks to do - {DATA.length}</Text>
+      <Text style={styles.text}>Tasks to do - {tasks.length}</Text>
       <FlatList
-        data={DATA}
+        data={tasks}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         style={styles.flatList}
@@ -48,13 +39,14 @@ export default function ToDoTasks(props: GetProps) {
 const styles = StyleSheet.create({
   flatList: {
     width: "100%",
+    height: "40%",
   },
   text: {
     color: "#fff",
   },
   container: {
-    width: "90%",
-    height: "30%",
+    width: "80%",
+    flexGrow: 2,
     gap: 15,
     justifyContent: "center",
     alignItems: "center",
