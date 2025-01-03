@@ -1,9 +1,7 @@
-import { Dimensions, StatusBar, StyleSheet, View } from "react-native";
-import InputTask from "./Components/InputTask";
-import ToDoTasks from "./Components/ToDoTasks";
-import DoneTasks from "./Components/DoneTasks";
-import { useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StatusBar, StyleSheet, View } from "react-native";
+import InputTask from "../Components/InputTask";
+import ToDoTasks from "../Components/ToDoTasks";
+import DoneTasks from "../Components/DoneTasks";
 
 export default function Index() {
   return (

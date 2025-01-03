@@ -1,8 +1,11 @@
-# Welcome to your Expo app 👋
+# **To-Do-List-App**
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Demo ToDoListApp for skills demonstration  
+**About project:** ToDo phone app with global states implementation (using Redux)
 
-## Get started
+## **RUN GUIDE**
+
+### Auto
 
 1. Install dependencies
 
@@ -25,26 +28,52 @@ In the output, you'll find options to open the app in a
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
+## **Technology stack**:
 
-When you're ready, run:
+- Framework: Expo
+- Build: EAS
+- Utils: Redux, React SVG
 
-```bash
-npm run reset-project
-```
+<details><summary><span style="font-size: 20px;"><b>Structure</b></span></b></summary>
+<ul>
+- [README.md](./README.md)
+- [App/](./app/)
+  - [\_layout](./app/_layout.tsx)
+  - [index.tsx](./app/index.tsx)
+- [Assetes/](./assets/)
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- [Fonts/](./assets/fonts/)
 
-## Learn more
+  - [SpaceMono-Regular.ttf](./assets/fonts/SpaceMono-Regular.ttf)
 
-To learn more about developing your project with Expo, look at the following resources:
+- [Img/](./assets/images/)
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+  - [adaptive-icon.png](./assets/images/adaptive-icon.png)
+  - [favicon.png](assets/images/favicon.png)
+  - [icon.png](assets/images/icon.png)
+  - [partial-react-logo.png](assets/images/partial-react-logo.png)
+  - [react-logo.png](assets/images/react-logo.png)
+  - [react-logo@2x.png](assets/images/react-logo@2x.png)
+  - [react-logo@3x.png](assets/images/react-logo@3x.png)
+  - [splash-icon.png](assets/images/splash-icon.png)
 
-## Join the community
+- [Svg/](./assets/svg/)
 
-Join our community of developers creating universal apps.
+  - [SVGAccept.tsx](assets/svg/SVGAccept.tsx)
+  - [SVGDelete.tsx](assets/svg/SVGDelete.tsx)
+  - [SVGPlus.tsx](assets/svg/SVGPlus.tsx)
+  - [SVGReturn.tsx](assets/svg/SVGReturn.tsx)
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- [Store/](store)
+  - [Actions](store/Actions)
+    - [TaskActions.tsx](store/Actions/TaskActions.tsx)
+  - [Reducers](store/Reducers)
+    - [TaskReducer.tsx](store/Reducers/TaskReducer.tsx)
+  - [Selectors](store/Selectors)
+    - [TaskSelectors.tsx](store/Selectors/TaskSelectors.tsx)
+  - [store.tsx](store/store.tsx)
+- [Types/](./types/)
+  - [taskTypes](./types/taskTypes.tsx)
+- [app.json](app.json)
+</ul>
+  </details>
